@@ -7,7 +7,7 @@ import { api } from "../../services/api";
 import { useAuth } from "../../hooks/useAuth";
 
 export function Register() {
-  const { isAuth } = useAuth();
+  const { handleSetToken, isAuth } = useAuth();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -22,13 +22,16 @@ export function Register() {
     if (email.length === 0) return;
     if (password.length === 0) return;
 
-    const res = await api.post("/users", {
-      name,
-      email,
-      password,
-    });
-
-    console.log(res.data);
+    api
+      .post("/users", {
+        name,
+        email,
+        password,
+      })
+      .then((res) => {
+        handleSetToken(res.data.token);
+      })
+      .catch((err) => console.log(err));
   }
 
   useEffect(() => {

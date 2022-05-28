@@ -7,7 +7,7 @@ import { api } from "../../services/api";
 import { useAuth } from "../../hooks/useAuth";
 
 export function Login() {
-  const { isAuth } = useAuth();
+  const { handleSetToken, isAuth } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,12 +20,18 @@ export function Login() {
     if (email.length === 0) return;
     if (password.length === 0) return;
 
-    const res = await api.post("/users/login", {
-      email,
-      password,
-    });
-
-    console.log(res.data);
+    api
+      .post("/users/login", {
+        email,
+        password,
+      })
+      .then((res) => {
+        handleSetToken(res.data.token);
+      })
+      .catch((err) => {
+        const { message } = err.response.data;
+        console.log(message);
+      });
   }
 
   useEffect(() => {

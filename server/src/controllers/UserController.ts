@@ -17,6 +17,32 @@ const UserController = {
       return res.status(500).json({ message: err.message });
     }
   },
+  async authenticate(req: Request, res: Response) {
+    try {
+      const user = await prisma.user.findFirst({
+        where: {
+          id: req.user!.id,
+        },
+      });
+
+      if (!user)
+        return res.status(401).json({ message: "Couldn't authenticate user." });
+
+      const userInfo = {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      };
+
+      return res.status(200).json({
+        message: "User authenticated successfully.",
+        user: userInfo
+      });
+    } catch (err: any) {
+      console.log(err);
+      return res.status(500).json({ message: err.message });
+    }
+  },
   async create(req: Request, res: Response) {
     try {
       const { name, email, password } = req.body;

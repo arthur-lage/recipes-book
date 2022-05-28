@@ -1,4 +1,5 @@
-import { useState, createContext } from "react";
+import { useState, createContext, useEffect } from "react";
+import { api } from "../services/api";
 
 type User = {
   id: string;
@@ -12,7 +13,6 @@ type UserContextProps = {
   isAuth: boolean;
   token: string | null;
   handleSetToken: (token: string | null) => void;
-  handleSetIsAuth: (isAuth: boolean) => void;
 };
 
 export const UserContext = createContext({} as UserContextProps);
@@ -34,9 +34,29 @@ export function UserProvider({ children }: Props) {
     setToken(token);
   };
 
-  const handleSetIsAuth = (isAuth: boolean) => {
-    setIsAuth(isAuth);
-  };
+  useEffect(() => {
+    if (token === null) {
+      return;
+    }
+
+    //@ts-ignore
+    api.defaults.headers.authorization = `Bearer ${token}`;
+
+    api
+      .get("/users/auth")
+      .then((res) => {
+        console.log(res.data)
+
+        handleSetUser({
+          id: res.data.user.id,
+          name: res.data.user.name,
+          email: res.data.user.email,
+        });
+
+        setIsAuth(true)
+      })
+      .catch((err) => console.log(err));
+  }, [token]);
 
   const value = {
     user,
@@ -44,7 +64,6 @@ export function UserProvider({ children }: Props) {
     isAuth,
     token,
     handleSetToken,
-    handleSetIsAuth,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
