@@ -32,9 +32,15 @@ export function UserProvider({ children }: Props) {
 
   const handleSetToken = (token: string | null) => {
     setToken(token);
+
+    localStorage.setItem("token", JSON.stringify(token));
   };
 
   useEffect(() => {
+    if(localStorage.getItem("token") !== null) {
+      setToken(JSON.parse(localStorage.getItem("token") as string));
+    }
+
     if (token === null) {
       return;
     }
@@ -45,15 +51,13 @@ export function UserProvider({ children }: Props) {
     api
       .get("/users/auth")
       .then((res) => {
-        console.log(res.data)
-
         handleSetUser({
           id: res.data.user.id,
           name: res.data.user.name,
           email: res.data.user.email,
         });
 
-        setIsAuth(true)
+        setIsAuth(true);
       })
       .catch((err) => console.log(err));
   }, [token]);
