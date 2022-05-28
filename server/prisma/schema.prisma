@@ -27,4 +27,6 @@ model Recipe {
   ingredients String[]
   image       String?
   userId      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
 }

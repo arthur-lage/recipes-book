@@ -13,6 +13,7 @@ type UserContextProps = {
   isAuth: boolean;
   token: string | null;
   handleSetToken: (token: string | null) => void;
+  handleLogout: () => void;
 };
 
 export const UserContext = createContext({} as UserContextProps);
@@ -26,6 +27,12 @@ export function UserProvider({ children }: Props) {
   const [token, setToken] = useState<string | null>(null);
   const [isAuth, setIsAuth] = useState<boolean>(false);
 
+  const handleLogout = () => {
+    setIsAuth(false);
+    setUser(null);
+    localStorage.setItem("token", JSON.stringify(null));
+  };
+
   const handleSetUser = (user: User | null) => {
     setUser(user);
   };
@@ -37,7 +44,7 @@ export function UserProvider({ children }: Props) {
   };
 
   useEffect(() => {
-    if(localStorage.getItem("token") !== null) {
+    if (localStorage.getItem("token") !== null) {
       setToken(JSON.parse(localStorage.getItem("token") as string));
     }
 
@@ -59,7 +66,11 @@ export function UserProvider({ children }: Props) {
 
         setIsAuth(true);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+
+        handleLogout();
+      });
   }, [token]);
 
   const value = {
@@ -68,6 +79,7 @@ export function UserProvider({ children }: Props) {
     isAuth,
     token,
     handleSetToken,
+    handleLogout,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

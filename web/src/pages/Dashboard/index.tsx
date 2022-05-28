@@ -1,12 +1,11 @@
-import { useEffect } from "react";
-import { api } from "../../services/api";
+import { Header } from '../../components/Header'
+import { Feed } from '../../components/Feed'
 
 export function Dashboard() {
-  useEffect(() => {
-    api.get("/users").then((res) => {
-      console.log(res.data);
-    });
-  }, []);
-
-  return <h1>HI, you are authenticated!</h1>;
+  return (
+    <div>
+      <Header />
+      <Feed />
+    </div>
+  );
 }
