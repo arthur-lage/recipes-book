@@ -1,10 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import { Link, useNavigate } from "react-router-dom";
+
 import { api } from "../../services/api";
 
+import { useAuth } from "../../hooks/useAuth";
+
 export function Register() {
+  const { isAuth } = useAuth();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
 
   async function submitForm(e: React.FormEvent) {
     e.preventDefault();
@@ -21,6 +30,13 @@ export function Register() {
 
     console.log(res.data);
   }
+
+  useEffect(() => {
+    if (isAuth) {
+      //@ts-ignore
+      navigate("/");
+    }
+  }, [isAuth]);
 
   return (
     <div>
@@ -55,6 +71,8 @@ export function Register() {
           />
         </div>
         <button type="submit">Register</button>
+
+        <Link to="/login">Already have an account? Login</Link>
       </form>
     </div>
   );

@@ -5,23 +5,28 @@ import { PrivateRoute } from "./components/PrivateRoute";
 import { Register } from "./pages/Register";
 import { Dashboard } from "./pages/Dashboard";
 import { Login } from "./pages/Login";
+import { UserProvider } from "./contexts/UserContext";
 
 export function App() {
   return (
     <>
-      <Routes>
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
+      <UserProvider>
+        <Routes>
+          {/*@ts-ignore*/}
+          <Route path="/register" element={<Register />} />
+          {/*@ts-ignore*/}
+          <Route path="/login" element={<Login />} />
 
-        <Route
-          path="/"
-          element={
-            <PrivateRoute>
-              <Route element={<Dashboard />} />
-            </PrivateRoute>
-          }
-        />
-      </Routes>
+          <Route
+            path="/"
+            element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          />
+        </Routes>
+      </UserProvider>
     </>
   );
 }

@@ -1,9 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import { Link, useNavigate } from "react-router-dom";
+
 import { api } from "../../services/api";
 
+import { useAuth } from "../../hooks/useAuth";
+
 export function Login() {
+  const { isAuth } = useAuth();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
 
   async function submitForm(e: React.FormEvent) {
     e.preventDefault();
@@ -18,6 +27,13 @@ export function Login() {
 
     console.log(res.data);
   }
+
+  useEffect(() => {
+    if (isAuth) {
+      //@ts-ignore
+      navigate("/");
+    }
+  }, [isAuth]);
 
   return (
     <div>
@@ -43,6 +59,8 @@ export function Login() {
           />
         </div>
         <button type="submit">Login</button>
+
+        <Link to="/register">Don't have an account yet? Create one</Link>
       </form>
     </div>
   );
