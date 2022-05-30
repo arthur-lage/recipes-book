@@ -21,6 +21,7 @@ const UserController = {
     try {
       const user = await prisma.user.findFirst({
         where: {
+          // @ts-ignore
           id: req.user!.id,
         },
       });
@@ -36,7 +37,7 @@ const UserController = {
 
       return res.status(200).json({
         message: "User authenticated successfully.",
-        user: userInfo
+        user: userInfo,
       });
     } catch (err: any) {
       console.log(err);

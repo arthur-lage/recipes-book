@@ -1,9 +1,9 @@
-import { Header } from '../../components/Header'
-import { Feed } from '../../components/Feed'
+import { Header } from "../../components/Header";
+import { Feed } from "../../components/Feed";
 
 export function Dashboard() {
   return (
-    <div>
+    <div className="fade-in">
       <Header />
       <Feed />
     </div>

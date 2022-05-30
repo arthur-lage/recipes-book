@@ -42,7 +42,7 @@ export function Register() {
   }, [isAuth]);
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-[100vh]">
+    <div className="fade-in flex flex-col justify-center items-center min-h-[100vh]">
       <h1 className="text-primary text-4xl font-bold uppercase font-nunito">
         Register
       </h1>

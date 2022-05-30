@@ -25,6 +25,7 @@ model Recipe {
   description String
   cookingTime Int
   ingredients String[]
+  directions  String[]
   image       String?
   userId      String
   createdAt   DateTime @default(now())

@@ -5,7 +5,8 @@ interface IRecipe {
   name: string;
   description: string;
   cookingTime: number;
-  ingredients: string;
+  ingredients: string[];
+  directions: string[];
   image: string;
   userId: string;
 }
@@ -21,9 +22,26 @@ const RecipeController = {
       res.status(500).json({ message: err.message });
     }
   },
+  async getById(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+
+      const recipe = await prisma.recipe.findFirst({
+        where: {
+          id,
+        },
+      });
+
+      res.status(200).json(recipe);
+    } catch (err: any) {
+      console.log(err);
+      res.status(500).json({ message: err.message });
+    }
+  },
   async create(req: Request, res: Response) {
     try {
-      const { name, description, cookingTime, ingredients, image } = req.body;
+      const { name, description, cookingTime, ingredients, image, directions } =
+        req.body;
 
       const newRecipe: IRecipe = {
         name,
@@ -31,6 +49,7 @@ const RecipeController = {
         cookingTime,
         ingredients,
         image,
+        directions,
         // @ts-ignore
         userId: req.user!.id,
       };

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { api } from "../../services/api";
 
 interface IRecipe {
@@ -29,7 +30,7 @@ export function Feed() {
       {recipes && (
         <div>
           {recipes.map((recipe) => (
-            <div key={recipe.id}>
+            <Link to={`/recipe/${recipe.id}`}>
               <h1>{recipe.name}</h1>
               <p>{recipe.description}</p>
               {recipe.image !== null && (
@@ -40,7 +41,7 @@ export function Feed() {
                   <li key={index}>{ingredient}</li>
                 ))}
               </ul>
-            </div>
+            </Link>
           ))}
         </div>
       )}
