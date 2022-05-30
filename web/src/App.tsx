@@ -7,6 +7,7 @@ import { Dashboard } from "./pages/Dashboard";
 import { Login } from "./pages/Login";
 import { UserProvider } from "./contexts/UserContext";
 import { RecipePage } from "./pages/RecipePage";
+import { CreateRecipe } from "./pages/CreateRecipe";
 
 export function App() {
   return (
@@ -23,6 +24,15 @@ export function App() {
             element={
               <PrivateRoute>
                 <Dashboard />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/create-recipe"
+            element={
+              <PrivateRoute>
+                <CreateRecipe />
               </PrivateRoute>
             }
           />

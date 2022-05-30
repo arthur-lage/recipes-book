@@ -39,7 +39,7 @@ export function RecipePage() {
   }, []);
 
   return (
-    <div>
+    <div className="fade-in">
       <Header />
 
       <div>

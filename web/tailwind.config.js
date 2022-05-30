@@ -9,6 +9,9 @@ module.exports = {
         primary: "#15B5B0",
         "primary-hover": "#10c4be",
       },
+      boxShadow: {
+        recipe: "0px 0px 10px 7.5px rgba(0,0,0,0.075)",
+      },
     },
   },
   plugins: [],
