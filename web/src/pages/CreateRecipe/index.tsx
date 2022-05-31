@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Header } from "../../components/Header";
 import { api } from "../../services/api";
 
+import { stringToArray } from "../../utils/stringToArray";
+
 export function CreateRecipe() {
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -12,13 +14,23 @@ export function CreateRecipe() {
   function handleForm(e: React.FormEvent) {
     e.preventDefault();
 
+    if (
+      name === "" ||
+      description === "" ||
+      cookingTime === 0 ||
+      ingredients === "" ||
+      directions === ""
+    ) {
+      return alert("Fill all fields");
+    }
+
     api
       .post("/recipes", {
         name,
         description,
         cookingTime,
-        ingredients,
-        directions,
+        ingredients: stringToArray(ingredients),
+        directions: stringToArray(directions),
       })
       .then((res) => {
         console.log(res);
