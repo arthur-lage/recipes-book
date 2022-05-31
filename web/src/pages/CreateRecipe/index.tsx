@@ -6,12 +6,20 @@ export function CreateRecipe() {
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [cookingTime, setCookingTime] = useState<number>(1);
+  const [ingredients, setIngredients] = useState<string>("");
+  const [directions, setDirections] = useState<string>("");
 
   function handleForm(e: React.FormEvent) {
     e.preventDefault();
 
     api
-      .post("/recipes")
+      .post("/recipes", {
+        name,
+        description,
+        cookingTime,
+        ingredients,
+        directions,
+      })
       .then((res) => {
         console.log(res);
       })
@@ -23,13 +31,13 @@ export function CreateRecipe() {
       <Header />
 
       <form
-        className="mt-10 ml-auto mr-auto w-[45vw]"
+        className="mt-10 ml-auto mr-auto w-[45vw] pb-10"
         onSubmit={(e) => handleForm(e)}
       >
         <h1 className="text-center font-bold font-nunito uppercase tracking-wider text-3xl text-zinc-700 mb-4">
           Create Recipe
         </h1>
-        <div className="w-full mb-3">
+        <div className="w-full mb-6">
           <label
             className="font-nunito font-medium text-zinc-800 text-lg"
             htmlFor="name"
@@ -40,11 +48,12 @@ export function CreateRecipe() {
             className="w-full border-2 border-zinc-500 mt-2 font-nunito outline-none pl-2 py-2 rounded-md"
             type="text"
             id="name"
+            placeholder="Eg: Chicken Tikka Masala"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
         </div>
-        <div className="w-full mb-3">
+        <div className="w-full mb-6">
           <label
             className="font-nunito font-medium text-zinc-800 text-lg"
             htmlFor="description"
@@ -55,16 +64,17 @@ export function CreateRecipe() {
             className="w-full border-2 border-zinc-500 mt-2 font-nunito outline-none pl-2 py-2 rounded-md"
             type="text"
             id="description"
+            placeholder="Eg: A delicious recipe for a delicious meal"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
         </div>
-        <div className="w-full">
+        <div className="w-full mb-6">
           <label
             className="font-nunito font-medium text-zinc-800 text-lg"
             htmlFor="cooking-time"
           >
-            Recipe Cooking Time
+            Recipe Cooking Time (Minutes)
           </label>
           <input
             type="number"
@@ -73,6 +83,36 @@ export function CreateRecipe() {
             value={cookingTime}
             min={1}
             onChange={(e) => setCookingTime(Number(e.target.value))}
+          />
+        </div>
+        <div className="w-full mb-6">
+          <label
+            className="font-nunito font-medium text-zinc-800 text-lg"
+            htmlFor="ingredients"
+          >
+            Ingredients (type each ingredient on a new line)
+          </label>
+          <textarea
+            id="ingredients"
+            className="w-full h-48 border-2 border-zinc-500 mt-2 font-nunito outline-none pl-2 py-2 rounded-md"
+            value={ingredients}
+            placeholder="Eg: 1/2 cup of chicken, 1/2 cup of rice, 1/2 cup of peas"
+            onChange={(e) => setIngredients(e.target.value)}
+          />
+        </div>
+        <div className="w-full mb-6">
+          <label
+            className="font-nunito font-medium text-zinc-800 text-lg"
+            htmlFor="directions"
+          >
+            Directions (type each direction on a new line)
+          </label>
+          <textarea
+            id="directions"
+            placeholder="Eg: 1. Fry the chicken, 2. Fry the rice, 3. Fry the peas"
+            className="w-full h-48 border-2 border-zinc-500 mt-2 font-nunito outline-none pl-2 py-2 rounded-md"
+            value={directions}
+            onChange={(e) => setDirections(e.target.value)}
           />
         </div>
 

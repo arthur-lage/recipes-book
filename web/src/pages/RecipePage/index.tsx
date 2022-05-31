@@ -50,7 +50,7 @@ export function RecipePage() {
         ) : (
           <>
             {recipe ? (
-              <div className="flex flex-col mt-10 pl-16">
+              <div className="flex flex-col mt-10 pl-16 pb-10">
                 <h1 className="mb-4 font-nunito font-bold tracking-wide uppercase text-3xl text-zinc-800">
                   {recipe.name}
                 </h1>
