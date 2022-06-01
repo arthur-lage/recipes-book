@@ -8,6 +8,7 @@ import { Login } from "./pages/Login";
 import { UserProvider } from "./contexts/UserContext";
 import { RecipePage } from "./pages/RecipePage";
 import { CreateRecipe } from "./pages/CreateRecipe";
+import { NotFound } from "./pages/NotFound";
 
 export function App() {
   return (
@@ -38,6 +39,8 @@ export function App() {
           />
 
           <Route path="/recipe/:id" element={<RecipePage />} />
+
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </UserProvider>
     </>

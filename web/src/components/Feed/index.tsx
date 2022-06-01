@@ -31,11 +31,11 @@ export function Feed() {
   return (
     <>
       {recipes && (
-        <div className="mt-10 pl-10 grid grid-cols-3 grid-rows-3 gap-[1.5rem]">
+        <div className="mt-10 px-5 grid grid-cols-3 grid-rows-3 gap-[1.5rem]">
           {recipes.map((recipe) => (
             <Link
               key={recipe.id}
-              className="flex items-center gap-5 shadow-md hover:shadow-recipe transition-all duration-200 ease-linear p-5 rounded-md w-max"
+              className="w-full flex items-center gap-5 shadow-md hover:shadow-recipe transition-all duration-200 ease-linear p-5 rounded-md"
               to={`/recipe/${recipe.id}`}
             >
               <div>
