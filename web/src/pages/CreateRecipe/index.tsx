@@ -108,7 +108,7 @@ export function CreateRecipe() {
             id="ingredients"
             className="w-full h-48 border-2 border-zinc-500 mt-2 font-nunito outline-none pl-2 py-2 rounded-md"
             value={ingredients}
-            placeholder="Eg: 1/2 cup of chicken, 1/2 cup of rice, 1/2 cup of peas"
+            placeholder="Eg: 1/2 cup of chicken"
             onChange={(e) => setIngredients(e.target.value)}
           />
         </div>
@@ -121,7 +121,7 @@ export function CreateRecipe() {
           </label>
           <textarea
             id="directions"
-            placeholder="Eg: 1. Fry the chicken, 2. Fry the rice, 3. Fry the peas"
+            placeholder="Eg: 1. Fry the chicken"
             className="w-full h-48 border-2 border-zinc-500 mt-2 font-nunito outline-none pl-2 py-2 rounded-md"
             value={directions}
             onChange={(e) => setDirections(e.target.value)}

@@ -17,8 +17,13 @@ CREATE TABLE "Recipe" (
     "description" TEXT NOT NULL,
     "cookingTime" INTEGER NOT NULL,
     "ingredients" TEXT[],
+    "directions" TEXT[],
     "image" TEXT,
-    "userId" TEXT NOT NULL,
+    "authorId" TEXT NOT NULL,
+    "authorName" TEXT NOT NULL,
+    "likes" TEXT[],
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Recipe_pkey" PRIMARY KEY ("id")
 );

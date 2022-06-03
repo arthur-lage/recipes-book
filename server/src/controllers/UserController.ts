@@ -80,9 +80,13 @@ const UserController = {
         data: newUser,
       });
 
-      const token = sign({ id: createdUser.id }, process.env.JWT_SECRET!, {
-        expiresIn: "3d",
-      });
+      const token = sign(
+        { id: createdUser.id, name: createdUser.name },
+        process.env.JWT_SECRET!,
+        {
+          expiresIn: "3d",
+        }
+      );
 
       return res
         .status(200)
@@ -122,9 +126,13 @@ const UserController = {
         return res.status(401).json({ message: "Invalid email/password" });
       }
 
-      const token = sign({ id: existentUser.id }, process.env.JWT_SECRET!, {
-        expiresIn: "3d",
-      });
+      const token = sign(
+        { id: existentUser.id, name: existentUser.name },
+        process.env.JWT_SECRET!,
+        {
+          expiresIn: "3d",
+        }
+      );
 
       return res
         .status(200)

@@ -18,6 +18,8 @@ const AuthMiddleware = (req: Request, res: Response, next: NextFunction) => {
     const user = {
       //@ts-ignore
       id: decoded.id,
+      //@ts-ignore
+      name: decoded.name,
     };
 
     //@ts-ignore

@@ -6,6 +6,7 @@ import ReactLoading from "react-loading";
 import { Header } from "../../components/Header";
 
 import { BiTimeFive } from "react-icons/bi";
+import { FaStar } from "react-icons/fa";
 
 interface IRecipe {
   id: number;
@@ -15,6 +16,8 @@ interface IRecipe {
   directions: string[];
   image: string | null;
   cookingTime: number;
+  authorName: string;
+  likes: string[];
 }
 
 export function RecipePage() {
@@ -38,6 +41,18 @@ export function RecipePage() {
     setIsLoading(false);
   }, []);
 
+  async function handleLike() {
+    api.patch("/recipes/like/" + id, {}).then((res) => {
+      if (res.data.hasLiked) {
+        // @ts-ignore
+        setRecipe({ ...recipe, likes: [...recipe.likes, res.data.userId] });
+      } else {
+        // @ts-ignore
+        setRecipe({ ...recipe, likes: recipe.likes.filter((like) => like !== res.data.userId) });
+      }
+    });
+  }
+
   return (
     <div className="fade-in">
       <Header />
@@ -57,11 +72,18 @@ export function RecipePage() {
 
                 <div className="flex items-center mb-5">
                   <span className="mr-16 text-zinc-500 font-nunito font-bold">
-                    Arthur Lage
+                    {recipe.authorName}
                   </span>
-                  <span className="flex items-center gap-[6px] text-base text-zinc-500 font-nunito font-bold">
+                  <span className="mr-16 flex items-center gap-[6px] text-base text-zinc-500 font-nunito font-bold">
                     <BiTimeFive color="#777" size={26} />
                     {recipe.cookingTime} min
+                  </span>
+                  <span
+                    onClick={handleLike}
+                    className="p-2 hover:bg-zinc-200 transition-all duration-150 ease-linear rounded-md cursor-pointer flex items-center gap-[6px] text-base text-zinc-500 font-nunito font-bold"
+                  >
+                    <FaStar color="#ffc218" size={26} />
+                    {recipe.likes.length} likes
                   </span>
                 </div>
 

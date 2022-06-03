@@ -8,7 +8,9 @@ interface IRecipe {
   ingredients: string[];
   directions: string[];
   image: string;
-  userId: string;
+  authorId: string;
+  authorName: string;
+  likes: string[];
 }
 
 const RecipeController = {
@@ -51,7 +53,10 @@ const RecipeController = {
         image,
         directions,
         // @ts-ignore
-        userId: req.user!.id,
+        authorId: req.user!.id,
+        // @ts-ignore
+        authorName: req.user!.name,
+        likes: [],
       };
 
       await prisma.recipe.create({
@@ -88,6 +93,62 @@ const RecipeController = {
     } catch (err: any) {
       console.log(err);
       res.status(500).json({ message: err.message });
+    }
+  },
+  async like(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+
+      const recipe = await prisma.recipe.findFirst({
+        where: {
+          id,
+        },
+      });
+
+      if (recipe) {
+        const { likes } = recipe;
+
+        // @ts-ignore
+        const userId = req.user!.id;
+
+        if (likes.includes(userId)) {
+          const newLikes = likes.filter((like) => like !== userId);
+
+          await prisma.recipe.update({
+            where: {
+              id,
+            },
+            data: {
+              likes: newLikes,
+            },
+          });
+
+          return res
+            .status(200)
+            .json({ hasLiked: false, message: "Recipe unliked successfully" });
+        }
+
+        // @ts-ignore
+        likes.push(req.user!.id);
+
+        await prisma.recipe.update({
+          where: {
+            id,
+          },
+          data: {
+            likes,
+          },
+        });
+
+        res
+          .status(200)
+          .json({ hasLiked: true, message: "Recipe liked successfully" });
+      } else {
+        res.status(404).json({ message: "Recipe not found" });
+      }
+    } catch (err: any) {
+      console.log(err);
+      return res.status(500).json({ message: err.message });
     }
   },
 };
